@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 class="text-info">User List</h2>
+<br />
+
+<div class="col-3">
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-info">Create User</a>
+</div>
+
+<div class="col-12 border p-3 m-3">
+    <form method="post">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        @Html.DisplayNameFor(u => u.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(u => u.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(u => u.city)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.city)
+                        </td>
+                    </tr>                
+                }
+            </table>
+        }
+        else
+        {
+            <p>No user List Available.</p>
+        }
+    </form>
+</div>

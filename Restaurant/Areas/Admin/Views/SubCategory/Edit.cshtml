@@ -1,0 +1,124 @@
+﻿@model Restaurant.Models.ViewModels.SubCategoryandCategoryViewModel
+@using Restaurant.Extensions
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+<h2 class="text-info">Update Sub Category</h2>
+
+<br />
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<div class="border container row" style="padding:25px">
+    <div class="col-8 border-right">
+        <form asp-action="Edit">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="SubCategory.CategoryId">
+                    </label>
+                </div>
+                <div class="col-6">
+                    <select id="ddlCategoryList" disabled asp-for="SubCategory.CategoryId" asp-items="Model.CategoryList.ToSelectListItem(Model.SubCategory.CategoryId)" class="form-control"></select>
+                </div>
+                <span asp-validation-for="SubCategory.CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="SubCategory.Name">
+                    </label>
+                </div>
+                <div class="col-6">
+                    <input asp-for="SubCategory.Name" class="form-control" />
+                </div>
+                <span asp-validation-for="SubCategory.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3 offset-1">
+                    <input type="submit" value="Update" class="btn btn-primary form-control" />
+                </div>
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-primary form-control">Back to Category List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-3 offset-1">
+        @if (Model.SubCategoryList.Count() > 0)
+        {
+            <p>Existing Sub Category List</p>
+        }
+
+        <div id="SubCategoryList">
+            <ul class="list-group">
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+
+        function updateSubCategoryList() {
+            //get selected category
+
+            var categorySelected = document.getElementById("ddlCategoryList").value;
+
+            //display div
+
+            $list = $('#SubCategoryList');
+
+            //ajax call 
+
+            $.ajax(
+                {
+                    url: '/Admin/SubCategory/GetSubCategory/' + categorySelected,
+                    type: 'GET',
+                    dataType: 'text',
+                    success: function (data) {
+                        results = JSON.parse(data);
+
+                        //empty our display ara
+
+                        $list.html(' ');
+
+                        $list.append('<ul class = "list-group">');
+
+                        for (i in results) {
+                            $list.append('<li class = "list-group-item">' + results[i].text + '</li>');
+                        }
+
+                        $list.append('</ul>');
+                    }
+                }
+            );
+        }
+
+        //call this function
+        //when first time load page.
+
+
+        $(document).ready(
+            function () {
+                updateSubCategoryList();
+            }
+        );
+
+        
+
+
+    </script>
+
+}

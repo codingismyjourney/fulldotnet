@@ -1,0 +1,16 @@
+﻿@model  Restaurant.Models.ViewModels.IndexViewModel;
+
+<br />
+<br />
+<br />
+
+<div class="container">
+    @foreach (var category in Model.Category)
+    {
+        <div class="col-12">
+            <div class="row">
+                <partial name="_ModelIndexCat" model="@Model.MenuItem.Where(m => m.Category.Name.Equals(category.Name))" />
+            </div>
+        </div>
+    }
+</div>
